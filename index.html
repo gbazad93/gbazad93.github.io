@@ -6,27 +6,29 @@
   <title>Bobby Azad — AI/ML Engineer & Data Specialist</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <style>
     /* ===== CSS VARIABLES ===== */
     :root {
-      --bg-deep:    #080c14;
-      --bg-card:    #0e1420;
-      --bg-raised:  #141b2a;
-      --border:     rgba(255,255,255,0.07);
-      --gold:       #c8a96e;
-      --gold-light: #e4c98a;
-      --teal:       #4ecdc4;
-      --teal-dim:   #2a8a83;
-      --white:      #f0ede6;
-      --muted:      #8891a4;
-      --accent-red: #e05c5c;
+      --bg-deep:    #050a12;
+      --bg-card:    #0a1121;
+      --bg-raised:  #0f1a2e;
+      --border:     rgba(255,255,255,0.06);
+      --gold:       #d4a853;
+      --gold-light: #f0d080;
+      --teal:       #38bdf8;
+      --teal-dim:   #0c7bb3;
+      --white:      #eef2f7;
+      --muted:      #7b89a8;
+      --accent-purple: #a78bfa;
 
       --font-display: 'Playfair Display', serif;
-      --font-body:    'Crimson Pro', serif;
-      --font-mono:    'DM Mono', monospace;
+      --font-body:    'Inter', sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     /* ===== RESET & BASE ===== */
@@ -36,21 +38,33 @@
       background: var(--bg-deep);
       color: var(--white);
       font-family: var(--font-body);
-      font-size: 1.1rem;
+      font-size: 1rem;
       line-height: 1.7;
       overflow-x: hidden;
     }
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
 
-    /* ===== NOISE TEXTURE OVERLAY ===== */
+    /* ===== GRAIN OVERLAY ===== */
     body::before {
       content: '';
       position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 0;
-      opacity: 0.4;
+      opacity: 0.3;
+    }
+
+    /* ===== CURSOR GLOW ===== */
+    .cursor-glow {
+      position: fixed;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56,189,248,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      transform: translate(-50%, -50%);
+      transition: left 0.3s ease, top 0.3s ease;
     }
 
     /* ===== NAV ===== */
@@ -58,18 +72,25 @@
       position: fixed; top: 0; left: 0; right: 0;
       z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1.1rem 4rem;
-      background: rgba(8, 12, 20, 0.85);
-      backdrop-filter: blur(18px);
+      padding: 1.2rem 4rem;
+      background: rgba(5, 10, 18, 0.7);
+      backdrop-filter: blur(20px) saturate(1.2);
       border-bottom: 1px solid var(--border);
-      transition: padding 0.3s;
+      transition: all 0.4s var(--ease-out-expo);
+    }
+    nav.scrolled {
+      padding: 0.7rem 4rem;
+      background: rgba(5, 10, 18, 0.92);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
     }
     .nav-logo {
       font-family: var(--font-display);
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       font-weight: 700;
-      color: var(--gold);
-      letter-spacing: 0.03em;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.02em;
     }
     .nav-links {
       display: flex; gap: 2.5rem;
@@ -77,13 +98,25 @@
     }
     .nav-links a {
       font-family: var(--font-mono);
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--muted);
-      transition: color 0.25s;
+      transition: color 0.3s;
+      position: relative;
     }
-    .nav-links a:hover { color: var(--gold); }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 1px;
+      background: var(--teal);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s var(--ease-out-expo);
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
 
     /* ===== HERO ===== */
     #hero {
@@ -96,30 +129,43 @@
     .hero-bg-grid {
       position: absolute; inset: 0; z-index: 0;
       background-image:
-        linear-gradient(rgba(78,205,196,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(78,205,196,0.04) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+        linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
     }
-    .hero-glow {
+    .hero-orb {
       position: absolute;
-      width: 800px; height: 800px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(78,205,196,0.08) 0%, transparent 70%);
-      top: -200px; right: -200px;
+      filter: blur(80px);
       pointer-events: none;
+      animation: float 20s ease-in-out infinite;
     }
-    .hero-glow-2 {
-      position: absolute;
-      width: 600px; height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(200,169,110,0.07) 0%, transparent 70%);
-      bottom: -100px; left: -100px;
-      pointer-events: none;
+    .hero-orb-1 {
+      width: 500px; height: 500px;
+      background: rgba(56,189,248,0.08);
+      top: -100px; right: -100px;
+    }
+    .hero-orb-2 {
+      width: 400px; height: 400px;
+      background: rgba(212,168,83,0.06);
+      bottom: -50px; left: -50px;
+      animation-delay: -7s;
+    }
+    .hero-orb-3 {
+      width: 300px; height: 300px;
+      background: rgba(167,139,250,0.05);
+      top: 50%; left: 50%;
+      animation-delay: -14s;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.05); }
+      66% { transform: translate(-20px, 20px) scale(0.95); }
     }
     .hero-inner {
       position: relative; z-index: 1;
-      display: flex; align-items: center; gap: 6rem;
+      display: flex; align-items: center; gap: 5rem;
       max-width: 1200px; margin: 0 auto; width: 100%;
     }
     .hero-photo-wrap {
@@ -129,10 +175,10 @@
     .hero-photo-wrap::before {
       content: '';
       position: absolute;
-      inset: -3px;
+      inset: -4px;
       border-radius: 50%;
-      background: conic-gradient(var(--gold), var(--teal), var(--gold));
-      animation: spin 8s linear infinite;
+      background: conic-gradient(from 0deg, var(--teal), var(--gold), var(--accent-purple), var(--teal));
+      animation: spin 10s linear infinite;
     }
     .hero-photo-wrap::after {
       content: '';
@@ -184,10 +230,14 @@
       opacity: 0;
       animation: fadeUp 0.8s 0.35s forwards;
     }
-    .hero-name span { color: var(--gold); }
+    .hero-name span {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
     .hero-tagline {
       font-family: var(--font-display);
-      font-size: 1.35rem;
+      font-size: 1.3rem;
       font-weight: 400;
       font-style: italic;
       color: var(--muted);
@@ -197,14 +247,15 @@
     }
     .hero-desc {
       max-width: 560px;
-      color: rgba(240,237,230,0.75);
-      font-size: 1.1rem;
+      color: rgba(238,242,247,0.7);
+      font-size: 1.05rem;
+      font-weight: 300;
       margin-bottom: 2rem;
       opacity: 0;
       animation: fadeUp 0.8s 0.65s forwards;
     }
     .hero-socials {
-      display: flex; gap: 1rem; flex-wrap: wrap;
+      display: flex; gap: 0.8rem; flex-wrap: wrap;
       margin-bottom: 2.5rem;
       opacity: 0;
       animation: fadeUp 0.8s 0.8s forwards;
@@ -213,19 +264,21 @@
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.55rem 1.2rem;
       border: 1px solid var(--border);
-      border-radius: 4px;
+      border-radius: 8px;
       font-family: var(--font-mono);
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
       color: var(--muted);
-      background: var(--bg-card);
-      transition: all 0.25s;
+      background: rgba(15,26,46,0.5);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s var(--ease-out-expo);
     }
     .social-btn:hover {
-      border-color: var(--gold);
-      color: var(--gold);
+      border-color: var(--teal);
+      color: var(--white);
       transform: translateY(-2px);
-      box-shadow: 0 4px 20px rgba(200,169,110,0.15);
+      box-shadow: 0 4px 20px rgba(56,189,248,0.15);
+      background: rgba(56,189,248,0.08);
     }
     .social-btn i { font-size: 0.9rem; }
     .hero-stats {
@@ -235,27 +288,29 @@
     }
     .stat { text-align: center; }
     .stat-num {
-      font-family: var(--font-display);
+      font-family: var(--font-body);
       font-size: 2rem;
-      font-weight: 700;
-      color: var(--gold);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       line-height: 1;
     }
     .stat-label {
       font-family: var(--font-mono);
-      font-size: 0.68rem;
-      letter-spacing: 0.12em;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--muted);
       margin-top: 0.25rem;
     }
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
+      from { opacity: 0; transform: translateY(30px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ===== SECTION BASE ===== */
-    section { position: relative; z-index: 1; padding: 6rem 4rem; }
+    section { position: relative; z-index: 1; padding: 7rem 4rem; }
     .section-inner { max-width: 1100px; margin: 0 auto; }
     .section-label {
       font-family: var(--font-mono);
@@ -270,74 +325,90 @@
       font-size: clamp(2rem, 4vw, 3rem);
       font-weight: 700;
       color: var(--white);
-      margin-bottom: 3rem;
+      margin-bottom: 1rem;
       line-height: 1.1;
     }
-    .section-title span { color: var(--gold); }
+    .section-title span {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
     .section-divider {
       width: 60px; height: 2px;
-      background: linear-gradient(90deg, var(--gold), transparent);
-      margin-bottom: 3rem;
+      background: linear-gradient(90deg, var(--teal), var(--accent-purple));
+      margin-bottom: 3.5rem;
+      border-radius: 2px;
     }
 
     /* ===== ABOUT ===== */
-    #about { background: var(--bg-card); }
+    #about { background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-deep) 100%); }
     #about .section-inner {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 5rem;
-      align-items: center;
+      align-items: start;
     }
     .about-text p {
-      color: rgba(240,237,230,0.8);
+      color: rgba(238,242,247,0.75);
       margin-bottom: 1.2rem;
-      font-size: 1.15rem;
+      font-size: 1.05rem;
+      font-weight: 300;
     }
     .about-text p strong { color: var(--gold); font-weight: 600; }
     .about-badges {
-      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
       margin-top: 1.5rem;
     }
     .badge {
-      padding: 0.3rem 0.9rem;
-      border: 1px solid rgba(78,205,196,0.3);
-      border-radius: 2px;
+      padding: 0.35rem 0.9rem;
+      border: 1px solid rgba(56,189,248,0.2);
+      border-radius: 6px;
       font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.08em;
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
       color: var(--teal);
-      background: rgba(78,205,196,0.05);
+      background: rgba(56,189,248,0.05);
+      transition: all 0.3s;
+    }
+    .badge:hover {
+      border-color: rgba(56,189,248,0.5);
+      background: rgba(56,189,248,0.1);
+      transform: translateY(-1px);
     }
     .about-highlights {
       display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
     }
     .highlight-card {
-      background: var(--bg-raised);
+      background: rgba(15,26,46,0.5);
       border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1.2rem;
-      transition: border-color 0.25s, transform 0.25s;
+      border-radius: 12px;
+      padding: 1.3rem;
+      transition: all 0.4s var(--ease-out-expo);
+      backdrop-filter: blur(10px);
     }
     .highlight-card:hover {
-      border-color: rgba(200,169,110,0.4);
-      transform: translateY(-3px);
+      border-color: rgba(56,189,248,0.25);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.2);
     }
     .highlight-card i {
       font-size: 1.3rem;
-      color: var(--gold);
-      margin-bottom: 0.5rem;
+      color: var(--teal);
+      margin-bottom: 0.6rem;
       display: block;
     }
     .highlight-card strong {
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 600;
       color: var(--white);
       display: block;
       margin-bottom: 0.2rem;
     }
     .highlight-card span {
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       color: var(--muted);
+      font-weight: 300;
     }
 
     /* ===== EXPERIENCE ===== */
@@ -348,7 +419,7 @@
       position: absolute;
       left: 0; top: 0; bottom: 0;
       width: 1px;
-      background: linear-gradient(to bottom, var(--teal), transparent);
+      background: linear-gradient(to bottom, var(--teal), var(--accent-purple), transparent);
     }
     .timeline-item {
       position: relative;
@@ -362,9 +433,13 @@
       transform: translateX(-50%);
       width: 10px; height: 10px;
       border-radius: 50%;
-      background: var(--gold);
+      background: var(--teal);
       border: 2px solid var(--bg-deep);
-      box-shadow: 0 0 0 3px rgba(200,169,110,0.2);
+      box-shadow: 0 0 0 3px rgba(56,189,248,0.2);
+      transition: all 0.3s;
+    }
+    .timeline-item:hover::before {
+      box-shadow: 0 0 0 6px rgba(56,189,248,0.15), 0 0 20px rgba(56,189,248,0.2);
     }
     .timeline-header {
       display: flex; align-items: flex-start; justify-content: space-between;
@@ -372,31 +447,33 @@
       margin-bottom: 0.4rem;
     }
     .timeline-role {
-      font-family: var(--font-display);
-      font-size: 1.2rem;
+      font-family: var(--font-body);
+      font-size: 1.15rem;
       font-weight: 700;
       color: var(--white);
     }
     .timeline-company {
       font-family: var(--font-mono);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--teal);
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
       margin-bottom: 0.3rem;
     }
     .timeline-date {
       font-family: var(--font-mono);
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--gold);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       white-space: nowrap;
       padding: 0.25rem 0.7rem;
-      border: 1px solid rgba(200,169,110,0.25);
-      border-radius: 3px;
+      border: 1px solid rgba(212,168,83,0.2);
+      border-radius: 6px;
+      background: rgba(212,168,83,0.05);
     }
     .timeline-desc {
-      color: rgba(240,237,230,0.7);
-      font-size: 1rem;
+      color: rgba(238,242,247,0.65);
+      font-size: 0.95rem;
+      font-weight: 300;
       line-height: 1.7;
     }
     .timeline-desc ul { list-style: none; padding: 0; }
@@ -406,21 +483,24 @@
       margin-bottom: 0.3rem;
     }
     .timeline-desc ul li::before {
-      content: '▸';
+      content: '>';
       position: absolute; left: 0;
-      color: var(--teal); font-size: 0.8rem;
+      color: var(--teal);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
     }
     .current-badge {
       display: inline-flex; align-items: center; gap: 0.4rem;
       font-family: var(--font-mono);
-      font-size: 0.68rem;
-      letter-spacing: 0.1em;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--teal);
       padding: 0.2rem 0.6rem;
-      border: 1px solid rgba(78,205,196,0.4);
-      border-radius: 2px;
+      border: 1px solid rgba(56,189,248,0.3);
+      border-radius: 6px;
       margin-left: 0.6rem;
+      background: rgba(56,189,248,0.05);
     }
     .current-badge::before {
       content: '';
@@ -431,51 +511,184 @@
     }
     @keyframes pulse {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.3); }
+      50% { opacity: 0.4; transform: scale(1.4); }
+    }
+
+    /* ===== FEATURED AI WORK ===== */
+    #ai-work { background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-deep) 100%); }
+    .ai-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    .ai-card {
+      background: rgba(15,26,46,0.6);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.4s var(--ease-out-expo);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    .ai-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      padding: 1px;
+      background: linear-gradient(135deg, transparent 40%, rgba(56,189,248,0.15) 50%, transparent 60%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .ai-card:hover::before { opacity: 1; }
+    .ai-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      border-color: rgba(56,189,248,0.15);
+    }
+    .ai-card-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1.2rem;
+      background: linear-gradient(135deg, rgba(56,189,248,0.12), rgba(167,139,250,0.08));
+      border: 1px solid rgba(56,189,248,0.15);
+      color: var(--teal);
+    }
+    .ai-card-status {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+    .ai-card-status.live {
+      color: #34d399;
+      background: rgba(52,211,153,0.08);
+      border: 1px solid rgba(52,211,153,0.2);
+    }
+    .ai-card-status.live::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #34d399;
+      animation: pulse 1.5s infinite;
+    }
+    .ai-card-status.building {
+      color: var(--gold);
+      background: rgba(212,168,83,0.08);
+      border: 1px solid rgba(212,168,83,0.2);
+    }
+    .ai-card-title {
+      font-family: var(--font-body);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.7rem;
+    }
+    .ai-card-desc {
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 300;
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+    .ai-card-example {
+      background: rgba(5,10,18,0.6);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: rgba(238,242,247,0.6);
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+    .ai-card-example::before {
+      content: 'Example query';
+      display: block;
+      font-style: normal;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.4rem;
+    }
+    .ai-card-tags {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+    }
+    .ai-tag {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.04em;
+      color: var(--accent-purple);
+      background: rgba(167,139,250,0.08);
+      border: 1px solid rgba(167,139,250,0.15);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+    .ai-card.featured {
+      grid-column: 1 / -1;
+    }
+    .ai-card.featured .ai-card-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
     }
 
     /* ===== PROJECTS ===== */
-    #projects { background: var(--bg-card); }
+    #projects { background: var(--bg-deep); }
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 1.5rem;
     }
     .project-card {
-      background: var(--bg-raised);
+      background: rgba(15,26,46,0.5);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 14px;
       padding: 1.8rem;
-      transition: all 0.3s;
+      transition: all 0.4s var(--ease-out-expo);
       position: relative;
       overflow: hidden;
+      backdrop-filter: blur(10px);
     }
     .project-card::after {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 2px;
-      background: linear-gradient(90deg, var(--teal), var(--gold));
+      background: linear-gradient(90deg, var(--teal), var(--accent-purple));
       transform: scaleX(0);
       transform-origin: left;
-      transition: transform 0.3s;
+      transition: transform 0.4s var(--ease-out-expo);
     }
     .project-card:hover {
-      border-color: rgba(78,205,196,0.25);
-      transform: translateY(-4px);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+      border-color: rgba(56,189,248,0.2);
+      transform: translateY(-5px);
+      box-shadow: 0 16px 50px rgba(0,0,0,0.25);
     }
     .project-card:hover::after { transform: scaleX(1); }
     .project-year {
       font-family: var(--font-mono);
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: var(--gold);
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       margin-bottom: 0.8rem;
     }
     .project-title {
-      font-family: var(--font-display);
-      font-size: 1.15rem;
+      font-family: var(--font-body);
+      font-size: 1.1rem;
       font-weight: 700;
       color: var(--white);
       margin-bottom: 0.7rem;
@@ -483,7 +696,8 @@
     }
     .project-desc {
       color: var(--muted);
-      font-size: 0.97rem;
+      font-size: 0.92rem;
+      font-weight: 300;
       line-height: 1.6;
     }
     .project-tags {
@@ -492,17 +706,17 @@
     }
     .tag {
       font-family: var(--font-mono);
-      font-size: 0.67rem;
-      letter-spacing: 0.06em;
+      font-size: 0.65rem;
+      letter-spacing: 0.04em;
       color: var(--teal);
-      background: rgba(78,205,196,0.08);
-      border: 1px solid rgba(78,205,196,0.2);
+      background: rgba(56,189,248,0.06);
+      border: 1px solid rgba(56,189,248,0.15);
       padding: 0.2rem 0.6rem;
-      border-radius: 2px;
+      border-radius: 4px;
     }
 
     /* ===== SKILLS ===== */
-    #skills { background: var(--bg-deep); }
+    #skills { background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-deep) 100%); }
     .skills-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -510,41 +724,41 @@
     }
     .skill-group-title {
       font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.2em;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--teal);
       margin-bottom: 1.5rem;
       padding-bottom: 0.6rem;
-      border-bottom: 1px solid rgba(200,169,110,0.2);
+      border-bottom: 1px solid rgba(56,189,248,0.15);
     }
     .skill-item {
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.3rem;
     }
     .skill-header {
       display: flex; justify-content: space-between;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.5rem;
     }
     .skill-name {
-      font-family: var(--font-body);
-      font-size: 1rem;
+      font-size: 0.92rem;
+      font-weight: 500;
       color: var(--white);
     }
     .skill-years {
       font-family: var(--font-mono);
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--muted);
     }
     .skill-bar {
       height: 3px;
-      background: rgba(255,255,255,0.07);
-      border-radius: 2px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 3px;
       overflow: hidden;
     }
     .skill-fill {
       height: 100%;
-      border-radius: 2px;
-      background: linear-gradient(90deg, var(--teal), var(--gold));
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--teal), var(--accent-purple));
       transform-origin: left;
       animation: fillBar 1.2s ease forwards;
       transform: scaleX(0);
@@ -552,25 +766,27 @@
     @keyframes fillBar { to { transform: scaleX(1); } }
 
     /* ===== EDUCATION ===== */
-    #education { background: var(--bg-card); }
+    #education { background: var(--bg-deep); }
     .edu-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
     }
     .edu-card {
-      background: var(--bg-raised);
+      background: rgba(15,26,46,0.5);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 14px;
       padding: 2rem;
-      transition: all 0.3s;
+      transition: all 0.4s var(--ease-out-expo);
+      backdrop-filter: blur(10px);
     }
     .edu-card:hover {
-      border-color: rgba(200,169,110,0.3);
-      transform: translateY(-4px);
+      border-color: rgba(212,168,83,0.25);
+      transform: translateY(-5px);
+      box-shadow: 0 16px 50px rgba(0,0,0,0.2);
     }
     .edu-degree {
-      font-family: var(--font-display);
+      font-family: var(--font-body);
       font-size: 1rem;
       font-weight: 700;
       color: var(--white);
@@ -579,14 +795,14 @@
     .edu-field {
       font-style: italic;
       color: var(--teal);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       margin-bottom: 0.8rem;
     }
     .edu-school {
       font-family: var(--font-mono);
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: var(--muted);
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
     }
     .edu-meta {
       display: flex; justify-content: space-between; align-items: center;
@@ -596,35 +812,36 @@
     }
     .edu-gpa {
       font-family: var(--font-mono);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--gold);
     }
     .edu-years {
       font-family: var(--font-mono);
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--muted);
     }
 
     /* ===== PERSONAL ===== */
-    #personal { background: var(--bg-deep); }
+    #personal { background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-deep) 100%); }
     .personal-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 4rem;
     }
     .personal-block-title {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
+      font-family: var(--font-body);
+      font-size: 1.4rem;
       font-weight: 700;
       color: var(--white);
       margin-bottom: 1rem;
       display: flex; align-items: center; gap: 0.7rem;
     }
-    .personal-block-title i { color: var(--gold); font-size: 1.2rem; }
+    .personal-block-title i { color: var(--teal); font-size: 1.1rem; }
     .personal-text {
-      color: rgba(240,237,230,0.75);
-      font-size: 1.05rem;
-      line-height: 1.75;
+      color: rgba(238,242,247,0.7);
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.8;
       margin-bottom: 1.5rem;
     }
     .photo-placeholder-grid {
@@ -635,106 +852,113 @@
     }
     .photo-placeholder {
       aspect-ratio: 1;
-      background: var(--bg-raised);
-      border: 1px dashed rgba(255,255,255,0.1);
-      border-radius: 6px;
+      background: rgba(15,26,46,0.5);
+      border: 1px dashed rgba(255,255,255,0.08);
+      border-radius: 10px;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       gap: 0.4rem;
       color: var(--muted);
       font-family: var(--font-mono);
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       letter-spacing: 0.06em;
       text-align: center;
-      transition: border-color 0.25s;
+      transition: all 0.3s var(--ease-out-expo);
       cursor: pointer;
     }
-    .photo-placeholder:hover { border-color: rgba(200,169,110,0.4); }
-    .photo-placeholder i { font-size: 1.5rem; opacity: 0.3; }
+    .photo-placeholder:hover { border-color: rgba(56,189,248,0.3); background: rgba(56,189,248,0.03); }
+    .photo-placeholder i { font-size: 1.5rem; opacity: 0.2; }
     .hobbies-list {
-      display: flex; flex-wrap: wrap; gap: 0.8rem;
+      display: flex; flex-wrap: wrap; gap: 0.7rem;
     }
     .hobby-chip {
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.5rem 1.1rem;
-      background: var(--bg-raised);
+      background: rgba(15,26,46,0.5);
       border: 1px solid var(--border);
       border-radius: 100px;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
+      font-weight: 400;
       color: var(--white);
-      transition: all 0.25s;
+      transition: all 0.3s var(--ease-out-expo);
     }
     .hobby-chip:hover {
-      border-color: var(--gold);
-      color: var(--gold);
+      border-color: var(--teal);
+      color: var(--teal);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(56,189,248,0.1);
     }
-    .hobby-chip i { color: var(--teal); font-size: 0.9rem; }
+    .hobby-chip i { color: var(--teal); font-size: 0.85rem; }
 
     /* ===== COMMUNITY ===== */
-    #community { background: var(--bg-card); }
+    #community { background: var(--bg-deep); }
     .community-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
     }
     .community-card {
-      background: var(--bg-raised);
+      background: rgba(15,26,46,0.5);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 14px;
       padding: 2rem;
       text-align: center;
-      transition: all 0.3s;
+      transition: all 0.4s var(--ease-out-expo);
+      backdrop-filter: blur(10px);
     }
     .community-card:hover {
-      border-color: rgba(78,205,196,0.3);
-      transform: translateY(-4px);
+      border-color: rgba(56,189,248,0.2);
+      transform: translateY(-5px);
+      box-shadow: 0 16px 50px rgba(0,0,0,0.2);
     }
     .community-icon {
-      width: 60px; height: 60px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, rgba(78,205,196,0.15), rgba(200,169,110,0.1));
-      border: 1px solid rgba(78,205,196,0.2);
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(56,189,248,0.1), rgba(167,139,250,0.08));
+      border: 1px solid rgba(56,189,248,0.15);
       display: flex; align-items: center; justify-content: center;
       margin: 0 auto 1.2rem;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
     }
     .community-title {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
+      font-family: var(--font-body);
+      font-size: 1.05rem;
       font-weight: 700;
       color: var(--white);
       margin-bottom: 0.6rem;
     }
     .community-desc {
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
+      font-weight: 300;
       line-height: 1.6;
     }
 
     /* ===== CONTACT ===== */
     #contact {
-      background: var(--bg-deep);
+      background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-deep) 100%);
       text-align: center;
     }
     .contact-inner { max-width: 700px; margin: 0 auto; }
     .contact-inner .section-title { margin-bottom: 1rem; }
     .contact-sub {
       color: var(--muted);
-      font-size: 1.05rem;
+      font-size: 1.02rem;
+      font-weight: 300;
       margin-bottom: 2.5rem;
     }
     .contact-links {
-      display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem;
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 0.8rem;
       margin-bottom: 3rem;
     }
     .contact-link {
       display: inline-flex; align-items: center; gap: 0.6rem;
       padding: 0.75rem 1.8rem;
       font-family: var(--font-mono);
-      font-size: 0.82rem;
-      letter-spacing: 0.08em;
-      border-radius: 4px;
-      transition: all 0.25s;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      border-radius: 10px;
+      transition: all 0.3s var(--ease-out-expo);
     }
     .contact-link.primary {
       background: linear-gradient(135deg, var(--teal), var(--teal-dim));
@@ -742,44 +966,19 @@
       font-weight: 500;
     }
     .contact-link.primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(78,205,196,0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(56,189,248,0.3);
     }
     .contact-link.secondary {
       border: 1px solid var(--border);
       color: var(--muted);
+      background: rgba(15,26,46,0.5);
     }
     .contact-link.secondary:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-    }
-    .refs-row {
-      display: flex; justify-content: center; gap: 3rem;
-      flex-wrap: wrap;
-      border-top: 1px solid var(--border);
-      padding-top: 2rem;
-    }
-    .ref-card {
-      text-align: left;
-    }
-    .ref-name {
-      font-family: var(--font-display);
-      font-weight: 700;
+      border-color: var(--teal);
       color: var(--white);
-      font-size: 1rem;
+      transform: translateY(-2px);
     }
-    .ref-title {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--muted);
-      margin: 0.2rem 0;
-    }
-    .ref-email {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--teal);
-    }
-    .ref-email:hover { text-decoration: underline; }
 
     /* ===== FOOTER ===== */
     footer {
@@ -791,32 +990,57 @@
     }
     .footer-copy {
       font-family: var(--font-mono);
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--muted);
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
     }
     .footer-socials { display: flex; gap: 1.2rem; }
     .footer-socials a {
       color: var(--muted);
       font-size: 1rem;
-      transition: color 0.2s;
+      transition: all 0.3s;
     }
-    .footer-socials a:hover { color: var(--gold); }
+    .footer-socials a:hover { color: var(--teal); transform: translateY(-2px); }
 
     /* ===== HAMBURGER MENU (mobile) ===== */
     .hamburger { display: none; }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 99;
+      background: rgba(5,10,18,0.95);
+      backdrop-filter: blur(20px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--white); }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 900px) {
       nav { padding: 1rem 2rem; }
+      nav.scrolled { padding: 0.7rem 2rem; }
       .nav-links { display: none; }
-      .hamburger { display: block; color: var(--muted); font-size: 1.4rem; cursor: pointer; }
+      .hamburger { display: block; color: var(--muted); font-size: 1.4rem; cursor: pointer; z-index: 101; }
       #hero { padding: 7rem 2rem 4rem; }
       .hero-inner { flex-direction: column; gap: 2.5rem; text-align: center; align-items: center; }
       .hero-socials { justify-content: center; }
       .hero-stats { justify-content: center; }
       section { padding: 4rem 2rem; }
       #about .section-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .ai-grid { grid-template-columns: 1fr; }
+      .ai-card.featured .ai-card-inner { grid-template-columns: 1fr; }
       .skills-layout { grid-template-columns: 1fr; }
       .edu-grid { grid-template-columns: 1fr; }
       .personal-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -828,16 +1052,44 @@
     .reveal {
       opacity: 0;
       transform: translateY(30px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      transition: opacity 0.7s var(--ease-out-expo), transform 0.7s var(--ease-out-expo);
     }
     .reveal.visible {
       opacity: 1;
       transform: none;
     }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .hero-orb { animation: none; }
+    }
+
+    /* ===== SMOOTH SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: rgba(56,189,248,0.2); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(56,189,248,0.35); }
   </style>
 </head>
 
 <body>
+
+  <!-- CURSOR GLOW -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" onclick="closeMobile()">About</a>
+    <a href="#experience" onclick="closeMobile()">Experience</a>
+    <a href="#ai-work" onclick="closeMobile()">AI Work</a>
+    <a href="#projects" onclick="closeMobile()">Projects</a>
+    <a href="#skills" onclick="closeMobile()">Skills</a>
+    <a href="#personal" onclick="closeMobile()">Personal</a>
+    <a href="#contact" onclick="closeMobile()">Contact</a>
+  </div>
 
   <!-- NAV -->
   <nav>
@@ -845,22 +1097,23 @@
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#experience">Experience</a></li>
+      <li><a href="#ai-work">AI Work</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#personal">Personal</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <div class="hamburger"><i class="fas fa-bars"></i></div>
+    <div class="hamburger" onclick="toggleMobile()"><i class="fas fa-bars"></i></div>
   </nav>
 
   <!-- HERO -->
   <section id="hero">
     <div class="hero-bg-grid"></div>
-    <div class="hero-glow"></div>
-    <div class="hero-glow-2"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
     <div class="hero-inner">
       <div class="hero-photo-wrap">
-        <!-- Replace with: <img src="bobby.jpeg" alt="Bobby Azad" class="hero-photo" /> -->
         <img src="bobby.jpeg" alt="Bobby Azad" class="hero-photo"
           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
         <div class="hero-photo-placeholder" style="display:none;">
@@ -869,11 +1122,11 @@
         </div>
       </div>
       <div class="hero-text">
-        <p class="hero-eyebrow">AI/ML Engineer · Tech Lead</p>
+        <p class="hero-eyebrow">AI Engineer &middot; Tech Lead</p>
         <h1 class="hero-name">Bobby <span>Azad</span></h1>
         <p class="hero-tagline">Building intelligence at the intersection of data, AI, and agriculture</p>
         <p class="hero-desc">
-          Data & AI Engineer at Agtegra Cooperative, where I design production-grade ML systems, automate enterprise workflows, and bridge technical innovation with real-world business impact. 10+ years turning complex problems into elegant, working solutions.
+          Data & AI Engineer and Tech Lead at Agtegra Cooperative, where I architect production AI systems, lead technical strategy, and bridge innovation with real-world business impact. 15+ years turning complex problems into elegant, working solutions.
         </p>
         <div class="hero-socials">
           <a class="social-btn" href="https://www.linkedin.com/in/bobby-azad-b2035b65" target="_blank">
@@ -885,7 +1138,7 @@
           <a class="social-btn" href="https://scholar.google.com/citations?hl=en&user=Sa85s1cAAAAJ" target="_blank">
             <i class="fas fa-graduation-cap"></i> Google Scholar
           </a>
-          <a class="social-btn" href="/cdn-cgi/l/email-protection#d2b5b0b3a8b3b6ebe192b5bfb3bbbefcb1bdbf">
+          <a class="social-btn" href="mailto:gbazad93@gmail.com">
             <i class="fas fa-envelope"></i> Email
           </a>
         </div>
@@ -908,10 +1161,10 @@
         <div class="section-divider"></div>
         <div class="about-text">
           <p>
-            I'm a <strong>Data & AI Engineer and Tech Lead</strong> at Agtegra Cooperative in South Dakota, where I work at the frontier of AI, automation, and agriculture. My journey started with software engineering in Iran, took me through graduate research in machine learning and precision agriculture at SDSU, and now drives enterprise transformation in the American heartland.
+            I'm a <strong>Data & AI Engineer and Tech Lead</strong> at Agtegra Cooperative in South Dakota, where I work at the frontier of AI, automation, and agriculture. My journey started with software engineering, took me through graduate research in machine learning and precision agriculture at SDSU, and now drives enterprise AI transformation in the American heartland.
           </p>
           <p>
-            I specialize in taking AI from whiteboard to production — designing Airflow pipelines, deploying ML models, building enterprise apps, and developing RAG-based systems that make intelligent search a reality for teams. I believe great engineering is as much about the people it serves as the code it runs.
+            I specialize in taking AI from whiteboard to production — designing intelligent systems, deploying ML models, building enterprise apps, and developing AI-powered solutions that make knowledge instantly accessible to teams. I believe great engineering is as much about the people it serves as the code it runs.
           </p>
           <p>
             Beyond work, I'm an active member of the <strong>Python Software Foundation</strong>, attend <strong>PyCon</strong> annually, and maintain open-source projects on GitHub. When I'm not in front of a terminal, you'll find me at <strong>Aberdeen New Life Fellowship Church</strong> playing acoustic guitar on the worship team, or out fishing on a South Dakota lake.
@@ -921,7 +1174,7 @@
             <span class="badge">PyTorch / TensorFlow</span>
             <span class="badge">Azure / AWS</span>
             <span class="badge">Vision Transformers</span>
-            <span class="badge">RAG Systems</span>
+            <span class="badge">AI Systems</span>
             <span class="badge">20+ Publications</span>
             <span class="badge">USPTO Patent</span>
           </div>
@@ -936,10 +1189,10 @@
         <div class="highlight-card">
           <i class="fas fa-book-open"></i>
           <strong>20+ Publications</strong>
-          <span>H-index 14 · 790+ citations</span>
+          <span>H-index 14 &middot; 790+ citations</span>
         </div>
         <div class="highlight-card">
-          <i class="fas fa-patent"></i>
+          <i class="fas fa-file-contract"></i>
           <strong>Provisional Patent, USPTO</strong>
           <span>Plant disease detection robot</span>
         </div>
@@ -950,7 +1203,7 @@
         </div>
         <div class="highlight-card">
           <i class="fas fa-graduation-cap"></i>
-          <strong>4.0 GPA · Top Student</strong>
+          <strong>4.0 GPA &middot; Top Student</strong>
           <span>M.Sc. AI & Agriculture, SDSU</span>
         </div>
         <div class="highlight-card">
@@ -974,15 +1227,15 @@
           <div class="timeline-header">
             <div>
               <div class="timeline-role">
-                Data & AI Engineer · Tech Lead
+                Data & AI Engineer &middot; Tech Lead
                 <span class="current-badge">Current</span>
               </div>
-              <div class="timeline-company">AGTEGRA COOPERATIVE · South Dakota, USA</div>
+              <div class="timeline-company">AGTEGRA COOPERATIVE &middot; South Dakota, USA</div>
             </div>
             <div class="timeline-date">Apr 2026 – Present</div>
           </div>
           <div class="timeline-desc">
-            <p>Spearheading AI strategy and technical leadership across the organization, driving data-driven transformation in cooperative agriculture operations.</p>
+            <p>Leading AI strategy and providing technical direction for the application and AI team, driving data-driven transformation in cooperative agriculture operations.</p>
           </div>
         </div>
 
@@ -990,15 +1243,15 @@
           <div class="timeline-header">
             <div>
               <div class="timeline-role">Data & Artificial Intelligence (AI) Engineer</div>
-              <div class="timeline-company">AGTEGRA COOPERATIVE · South Dakota, USA</div>
+              <div class="timeline-company">AGTEGRA COOPERATIVE &middot; South Dakota, USA</div>
             </div>
             <div class="timeline-date">Sep 2025 – Apr 2026</div>
           </div>
           <div class="timeline-desc">
             <ul>
-              <li>Spearheaded data-driven AI solutions to optimize operations across the organization.</li>
+              <li>Started AI Engineer position as the first AI role at Agtegra, building the AI function from the ground up.</li>
               <li>Designed and deployed Apache Airflow from the ground up as a scalable automation and integration platform.</li>
-              <li>Developed RAG-based chatbot on Azure for intelligent enterprise knowledge search.</li>
+              <li>Built Scout, Agtegra's first internal AI, trained over company knowledge to serve employees across the organization.</li>
               <li>Provided AI consultation to various teams, bridging technical innovation with business needs.</li>
             </ul>
           </div>
@@ -1008,15 +1261,15 @@
           <div class="timeline-header">
             <div>
               <div class="timeline-role">Business Intelligence Developer / AI Developer</div>
-              <div class="timeline-company">AGTEGRA COOPERATIVE · South Dakota, USA</div>
+              <div class="timeline-company">AGTEGRA COOPERATIVE &middot; South Dakota, USA</div>
             </div>
             <div class="timeline-date">Feb 2024 – Sep 2025</div>
           </div>
           <div class="timeline-desc">
             <ul>
               <li>Productionized Apache Airflow: deployed Linux servers, established best practices, built 40+ DAGs for automation, data ingestion, and ML retraining.</li>
-              <li>Built enterprise-grade scheduling and logistics automation software from scratch (Python, PyQt, Airflow, Azure SQL, Microsoft Fabric).</li>
-              <li>Unified train scheduling, load/unload, grades, discounts, and invoicing workflows into a production app.</li>
+              <li>Full-stack developed the Train Schedule app — automating grain discount calculations for each train, generating reports, and syncing data across multiple systems (Python, PyQt, Airflow, Azure SQL, Microsoft Fabric).</li>
+              <li>Full-stack developed the Grain Prices app where the grain team manages daily bids, auto-generates dozens of reporting files, and syncs pricing data with multiple ERP systems.</li>
             </ul>
           </div>
         </div>
@@ -1025,7 +1278,7 @@
           <div class="timeline-header">
             <div>
               <div class="timeline-role">ML Engineering Intern</div>
-              <div class="timeline-company">xMINDFLOW · Berlin, Germany (Remote)</div>
+              <div class="timeline-company">xMINDFLOW &middot; Berlin, Germany (Remote)</div>
             </div>
             <div class="timeline-date">Feb 2023 – Feb 2024</div>
           </div>
@@ -1038,12 +1291,17 @@
           <div class="timeline-header">
             <div>
               <div class="timeline-role">Graduate Research Assistant</div>
-              <div class="timeline-company">SOUTH DAKOTA STATE UNIVERSITY · South Dakota, USA</div>
+              <div class="timeline-company">SOUTH DAKOTA STATE UNIVERSITY &middot; South Dakota, USA</div>
             </div>
             <div class="timeline-date">May 2022 – Dec 2023</div>
           </div>
           <div class="timeline-desc">
-            <p>Developed ML frameworks for disease detection in aerial and satellite imagery; applied AI to precision agriculture research resulting in a USPTO provisional patent.</p>
+            <ul>
+              <li>Developed, deployed, and patented a robot with a rotational camera system for in-field plant disease detection (e.g., Fusarium Head Blight), resulting in a USPTO provisional patent.</li>
+              <li>Built deep learning models to analyze satellite and drone imagery for precision agriculture applications.</li>
+              <li>Led nitrogen use efficiency research using deep learning on aerial imagery and in-season bio-sensor data to optimize fertilizer application.</li>
+              <li>Contributed to the design and production of smart laser systems for automated bird deterrence in agricultural fields.</li>
+            </ul>
           </div>
         </div>
 
@@ -1068,12 +1326,99 @@
           <div class="timeline-header">
             <div>
               <div class="timeline-role">Graduate Research Assistant</div>
-              <div class="timeline-company">IRAN UNIVERSITY OF SCIENCE & TECHNOLOGY</div>
+              <div class="timeline-company">IUST UNIVERSITY</div>
             </div>
             <div class="timeline-date">Sep 2016 – Feb 2019</div>
           </div>
           <div class="timeline-desc">
-            <p>Developed anomaly detection algorithms and conducted knowledge graph analysis in the Advanced Data Mining Lab.</p>
+            <p>Developed machine learning-based anomaly detection algorithms and conducted knowledge graph analysis in the Advanced Data Mining Lab.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED AI WORK -->
+  <section id="ai-work">
+    <div class="section-inner">
+      <p class="section-label reveal">What I'm Building</p>
+      <h2 class="section-title reveal">AI at <span>Agtegra</span></h2>
+      <div class="section-divider reveal"></div>
+      <p class="reveal" style="color:var(--muted); font-weight:300; margin-top:-2rem; margin-bottom:2.5rem; max-width:700px; font-size:0.95rem;">
+        I joined Agtegra as the first and only AI Engineer, building the entire AI capability from scratch. Here's what I've shipped and what's in the works.
+      </p>
+
+      <div class="ai-grid">
+
+        <!-- Scout -->
+        <div class="ai-card reveal">
+          <div class="ai-card-icon"><i class="fas fa-robot"></i></div>
+          <div class="ai-card-status live">Live &middot; Production</div>
+          <div class="ai-card-title">Scout — Agtegra's First Internal AI</div>
+          <div class="ai-card-desc">
+            Built from the ground up and trained over Agtegra's internal documents and institutional knowledge. Scout serves employees across the entire organization, answering questions about benefits, company policies, event details, HR procedures, and more — instantly and accurately.
+          </div>
+          <div class="ai-card-tags">
+            <span class="ai-tag">Enterprise AI</span>
+            <span class="ai-tag">Python</span>
+            <span class="ai-tag">Airflow</span>
+            <span class="ai-tag">NLP</span>
+            <span style="flex-basis:100%;height:0"></span>
+            <span class="ai-tag">OCR</span>
+            <span class="ai-tag">Knowledge Base</span>
+          </div>
+        </div>
+
+        <!-- NL Database Query AI -->
+        <div class="ai-card reveal">
+          <div class="ai-card-icon"><i class="fas fa-database"></i></div>
+          <div class="ai-card-status building">In Development</div>
+          <div class="ai-card-title">Natural Language Database Intelligence</div>
+          <div class="ai-card-desc">
+            An AI system that lets leaders and decision-makers query Agtegra's databases using plain English. Returns answers as both natural language explanations and interactive visualizations — giving more power and flexibility than traditional reporting tools like Power BI.
+          </div>
+          <div class="ai-card-example">
+            "Show me all soybean trains loaded at Northern region elevators during the first week of February that had moisture above 13% and protein below 34%, broken down by elevator with discounts applied, and compare year-over-year volume against the same period for the last three years."
+          </div>
+          <div class="ai-card-tags">
+            <span class="ai-tag">NL-to-SQL</span>
+            <span class="ai-tag">Python</span>
+            <span class="ai-tag">Data Visualization</span>
+            <span class="ai-tag">Azure SQL</span>
+            <span class="ai-tag">Decision Intelligence</span>
+          </div>
+        </div>
+
+        <!-- Train Logistics AI -->
+        <div class="ai-card reveal">
+          <div class="ai-card-icon"><i class="fas fa-train"></i></div>
+          <div class="ai-card-status building">In Development</div>
+          <div class="ai-card-title">AI-Powered Train Logistics Optimizer</div>
+          <div class="ai-card-desc">
+            An intelligent scheduling system that factors in weather forecasts, elevator inventory levels, predicted future grain receivables, seasonal patterns, and operational constraints to automatically schedule and optimize train logistics — ensuring smooth operations across the entire cooperative network.
+          </div>
+          <div class="ai-card-tags">
+            <span class="ai-tag">Optimization</span>
+            <span class="ai-tag">Forecasting</span>
+            <span class="ai-tag">Logistics</span>
+            <span class="ai-tag">Multi-factor AI</span>
+          </div>
+        </div>
+
+        <!-- AI Agents -->
+        <div class="ai-card reveal">
+          <div class="ai-card-icon"><i class="fas fa-cogs"></i></div>
+          <div class="ai-card-status live">Live &middot; Production</div>
+          <div class="ai-card-title">Autonomous AI Agents & Automation</div>
+          <div class="ai-card-desc">
+            Designed and deployed a fleet of internal AI agents powered by our AI platform and Apache Airflow. These agents automate complex workflows — from ingesting and categorizing daily market news, to summarizing key insights and delivering tailored intelligence reports to the right teams, automatically.
+          </div>
+          <div class="ai-card-tags">
+            <span class="ai-tag">AI Agents</span>
+            <span class="ai-tag">Apache Airflow</span>
+            <span class="ai-tag">Automation</span>
+            <span class="ai-tag">Market Intelligence</span>
           </div>
         </div>
 
@@ -1084,44 +1429,17 @@
   <!-- PROJECTS -->
   <section id="projects">
     <div class="section-inner">
-      <p class="section-label reveal">What I've Built</p>
-      <h2 class="section-title reveal">Featured <span>Projects</span></h2>
+      <p class="section-label reveal">Prior Work</p>
+      <h2 class="section-title reveal">Other <span>Projects</span></h2>
       <div class="section-divider reveal"></div>
       <div class="projects-grid">
 
         <div class="project-card reveal">
-          <div class="project-year">2024 – Present</div>
-          <div class="project-title">Train Scheduling Automation</div>
-          <div class="project-desc">End-to-end enterprise scheduling app integrating load/unload workflows, grades, discounts, and invoicing. Built from scratch as a production system powering Agtegra's logistics.</div>
-          <div class="project-tags">
-            <span class="tag">Python</span><span class="tag">PyQt</span><span class="tag">Airflow</span><span class="tag">Azure SQL</span>
-          </div>
-        </div>
-
-        <div class="project-card reveal">
-          <div class="project-year">2023 – Present</div>
-          <div class="project-title">Airflow ML Pipeline Suite</div>
-          <div class="project-desc">40+ production DAGs for ML training, data ingestion, ETL automation, and web scrapers. Deployed on Linux servers with best-practice architecture and monitoring.</div>
-          <div class="project-tags">
-            <span class="tag">Apache Airflow</span><span class="tag">ETL</span><span class="tag">Docker</span><span class="tag">ML Ops</span>
-          </div>
-        </div>
-
-        <div class="project-card reveal">
-          <div class="project-year">2025</div>
-          <div class="project-title">Enterprise RAG Chatbot</div>
-          <div class="project-desc">Developed an Azure-hosted Retrieval-Augmented Generation chatbot enabling intelligent search and Q&A across company knowledge bases and documents.</div>
-          <div class="project-tags">
-            <span class="tag">RAG</span><span class="tag">Azure</span><span class="tag">LangChain</span><span class="tag">FastAPI</span>
-          </div>
-        </div>
-
-        <div class="project-card reveal">
           <div class="project-year">2022 – 2023</div>
-          <div class="project-title">Plant Disease Detection Robot</div>
-          <div class="project-desc">Patented robotic system using Vision Transformers for automated plant disease detection. Full pipeline: dataset collection, model development, and embedded deployment at SDSU.</div>
+          <div class="project-title">Nitrogen Use Efficiency — Deep Learning</div>
+          <div class="project-desc">Applied deep learning to aerial imagery and in-season bio-sensor data to optimize nitrogen fertilizer application, improving crop yield while reducing environmental impact.</div>
           <div class="project-tags">
-            <span class="tag">Vision Transformers</span><span class="tag">PyTorch</span><span class="tag">Robotics</span><span class="tag">USPTO Patent</span>
+            <span class="tag">Deep Learning</span><span class="tag">Remote Sensing</span><span class="tag">Precision Ag</span><span class="tag">PyTorch</span>
           </div>
         </div>
 
@@ -1131,6 +1449,15 @@
           <div class="project-desc">Medical imaging system predicting anti-VEGF therapy outcomes in diabetic macular edema patients. Combines deep learning with clinical data to support ophthalmology decisions.</div>
           <div class="project-tags">
             <span class="tag">Medical Imaging</span><span class="tag">Deep Learning</span><span class="tag">TensorFlow</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-year">2021</div>
+          <div class="project-title">Kaggle SegPC — 2nd Place</div>
+          <div class="project-desc">Secured 2nd place in the ISBI SegPC challenge for multiple myeloma plasma cell segmentation, competing against teams worldwide in medical image analysis.</div>
+          <div class="project-tags">
+            <span class="tag">Image Segmentation</span><span class="tag">PyTorch</span><span class="tag">Medical Imaging</span><span class="tag">Kaggle</span>
           </div>
         </div>
 
@@ -1173,21 +1500,21 @@
           <div class="skill-item">
             <div class="skill-header">
               <span class="skill-name">Cloud & DevOps (Docker, AWS, Azure)</span>
-              <span class="skill-years">4+ yrs</span>
+              <span class="skill-years">6+ yrs</span>
             </div>
             <div class="skill-bar"><div class="skill-fill" style="width:88%;animation-delay:0.3s"></div></div>
           </div>
           <div class="skill-item">
             <div class="skill-header">
               <span class="skill-name">Databases (SQL Server, PostgreSQL, NoSQL)</span>
-              <span class="skill-years">6+ yrs</span>
+              <span class="skill-years">10+ yrs</span>
             </div>
             <div class="skill-bar"><div class="skill-fill" style="width:90%;animation-delay:0.4s"></div></div>
           </div>
           <div class="skill-item">
             <div class="skill-header">
-              <span class="skill-name">Machine Learning & Deep Learning (Vision, NLP, RAG)</span>
-              <span class="skill-years">8+ yrs</span>
+              <span class="skill-name">Machine Learning & Deep Learning (Vision, NLP)</span>
+              <span class="skill-years">13+ yrs</span>
             </div>
             <div class="skill-bar"><div class="skill-fill" style="width:94%;animation-delay:0.5s"></div></div>
           </div>
@@ -1197,7 +1524,7 @@
           <div class="skill-item">
             <div class="skill-header">
               <span class="skill-name">Microsoft Power BI & DAX</span>
-              <span class="skill-years">3 yrs</span>
+              <span class="skill-years">3+ yrs</span>
             </div>
             <div class="skill-bar"><div class="skill-fill" style="width:80%;animation-delay:0.1s"></div></div>
           </div>
@@ -1243,7 +1570,7 @@
       <div class="edu-grid">
         <div class="edu-card reveal">
           <div class="edu-degree">M.Sc.</div>
-          <div class="edu-field">Artificial Intelligence & Agriculture</div>
+          <div class="edu-field">Artificial Intelligence & Plant Science</div>
           <div class="edu-school">SOUTH DAKOTA STATE UNIVERSITY</div>
           <div class="edu-meta">
             <span class="edu-gpa">GPA 4.0 / 4.0</span>
@@ -1252,8 +1579,8 @@
         </div>
         <div class="edu-card reveal">
           <div class="edu-degree">M.Sc.</div>
-          <div class="edu-field">Software Engineering</div>
-          <div class="edu-school">IRAN UNIVERSITY OF SCIENCE & TECHNOLOGY</div>
+          <div class="edu-field">Data Science & AI</div>
+          <div class="edu-school">IUST UNIVERSITY</div>
           <div class="edu-meta">
             <span class="edu-gpa">GPA 3.77 / 4.0</span>
             <span class="edu-years">2016 – 2019</span>
@@ -1262,7 +1589,7 @@
         <div class="edu-card reveal">
           <div class="edu-degree">B.Sc.</div>
           <div class="edu-field">Software Engineering</div>
-          <div class="edu-school">TEHRAN VALLEY UNIVERSITY</div>
+          <div class="edu-school">TVU UNIVERSITY</div>
           <div class="edu-meta">
             <span class="edu-gpa">GPA 3.78 / 4.0</span>
             <span class="edu-years">2011 – 2014</span>
@@ -1354,12 +1681,10 @@
       <div class="section-divider reveal" style="margin:0 auto 1.5rem"></div>
       <p class="contact-sub reveal">Whether it's a collaboration, a technical challenge, or just a conversation about AI and agriculture — I'd love to hear from you.</p>
       <div class="contact-links reveal">
-        <a class="contact-link primary" href="/cdn-cgi/l/email-protection#a4c3c6c5dec5c09d97e4c3c9c5cdc88ac7cbc9">
-          <i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="422520233823267b7102252f232b2e6c212d2f">[email&#160;protected]</span>
+        <a class="contact-link primary" href="mailto:gbazad93@gmail.com">
+          <i class="fas fa-envelope"></i> gbazad93@gmail.com
         </a>
-        <a class="contact-link secondary" href="tel:+16055927132">
-          <i class="fas fa-phone"></i> +1 605 592 7132
-        </a>
+    
         <a class="contact-link secondary" href="https://www.linkedin.com/in/bobby-azad-b2035b65" target="_blank">
           <i class="fab fa-linkedin"></i> LinkedIn
         </a>
@@ -1367,46 +1692,100 @@
           <i class="fab fa-github"></i> GitHub
         </a>
       </div>
-      <div class="refs-row reveal">
-        <div class="ref-card">
-          <div class="ref-name">Dan Rosenbaum</div>
-          <div class="ref-title">Chief Information Officer, Agtegra · Aberdeen, SD</div>
-          <a class="ref-email" href="/cdn-cgi/l/email-protection#a2c6c3ccd0e2c0cecdc1c9cecdc5cbd1d6cbc1d1cecec18cc1cdcf"><span class="__cf_email__" data-cfemail="274346495567454b48444c4b48404e54534e44544b4b440944484a">[email&#160;protected]</span></a>
-        </div>
-        <div class="ref-card">
-          <div class="ref-name">Brent Wiesenburger</div>
-          <div class="ref-title">Director of Ag Technology Services · Aberdeen, SD</div>
-          <a class="ref-email" href="/cdn-cgi/l/email-protection#27655542495309704e4254424945525540425567464053424055460944484a"><span class="__cf_email__" data-cfemail="8ccefee9e2f8a2dbe5e9ffe9e2eef9feebe9feccedebf8e9ebfeeda2efe3e1">[email&#160;protected]</span></a>
-        </div>
-      </div>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <span class="footer-copy">© 2026 Bobby Azad · Aberdeen, South Dakota</span>
+    <span class="footer-copy">&copy; 2026 Bobby Azad &middot; Aberdeen, South Dakota &middot; Last updated March 17, 2026</span>
     <div class="footer-socials">
-      <a href="/cdn-cgi/l/email-protection#f09792918a9194c9c3b0979d91999cde939f9d" title="Email"><i class="fas fa-envelope"></i></a>
+      <a href="mailto:gbazad93@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
       <a href="https://github.com/gbazad93" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
       <a href="https://www.linkedin.com/in/bobby-azad-b2035b65" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
       <a href="https://scholar.google.com/citations?hl=en&user=Sa85s1cAAAAJ" target="_blank" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
     </div>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    // Scroll reveal
+  <script>
+    // Cursor glow follow
+    const glow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', e => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top = e.clientY + 'px';
+    });
+
+    // Mobile menu
+    function toggleMobile() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+    }
+    function closeMobile() {
+      document.getElementById('mobileMenu').classList.remove('open');
+    }
+
+    // Scroll reveal with stagger
     const revealEls = document.querySelectorAll('.reveal');
+
+    const fallback = setTimeout(() => {
+      revealEls.forEach(el => el.classList.add('visible'));
+    }, 1500);
+
     const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
+      entries.forEach((e, i) => {
         if (e.isIntersecting) {
-          e.target.classList.add('visible');
+          // Stagger siblings
+          const siblings = e.target.parentElement.querySelectorAll('.reveal');
+          let idx = Array.from(siblings).indexOf(e.target);
+          setTimeout(() => {
+            e.target.classList.add('visible');
+          }, idx * 80);
           observer.unobserve(e.target);
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0, rootMargin: '0px 0px -60px 0px' });
+
     revealEls.forEach(el => observer.observe(el));
+
+    const checkAllVisible = setInterval(() => {
+      const remaining = document.querySelectorAll('.reveal:not(.visible)');
+      if (remaining.length === 0) { clearTimeout(fallback); clearInterval(checkAllVisible); }
+    }, 200);
 
     // Nav scroll effect
     window.addEventListener('scroll', () => {
       const nav = document.querySelector('nav');
-      nav.s
+      if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // Skill bar animation on scroll
+    const skillFills = document.querySelectorAll('.skill-fill');
+    const skillObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.animation = 'none';
+          e.target.offsetHeight;
+          e.target.style.animation = '';
+        }
+      });
+    }, { threshold: 0.5 });
+    skillFills.forEach(el => skillObserver.observe(el));
+
+    // Smooth active nav link highlighting
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        const top = s.offsetTop - 200;
+        if (window.scrollY >= top) current = s.getAttribute('id');
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--white)' : '';
+      });
+    });
+  </script>
+</body>
+</html>
