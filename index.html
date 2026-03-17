@@ -868,6 +868,19 @@
     }
     .photo-placeholder:hover { border-color: rgba(56,189,248,0.3); background: rgba(56,189,248,0.03); }
     .photo-placeholder i { font-size: 1.5rem; opacity: 0.2; }
+    .photo-grid-img {
+      aspect-ratio: 1;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      transition: all 0.3s var(--ease-out-expo);
+    }
+    .photo-grid-img:hover {
+      border-color: rgba(56,189,248,0.3);
+      transform: scale(1.03);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
     .hobbies-list {
       display: flex; flex-wrap: wrap; gap: 0.7rem;
     }
@@ -1613,9 +1626,9 @@
             I'm an active member of the <strong style="color:var(--gold)">Aberdeen New Life Fellowship Church</strong>, where I serve on the worship team as an acoustic guitar player. Music and faith are a grounding force in my life — there's something about the blend of community and melody that recharges everything else.
           </p>
           <div class="photo-placeholder-grid">
-            <div class="photo-placeholder"><i class="fas fa-image"></i>Photo</div>
-            <div class="photo-placeholder"><i class="fas fa-image"></i>Photo</div>
-            <div class="photo-placeholder"><i class="fas fa-image"></i>Photo</div>
+            <img src="photos/faith-1.jpg" alt="Faith & Music" class="photo-grid-img" />
+            <img src="photos/faith-2.jpg" alt="Faith & Music" class="photo-grid-img" />
+            <img src="photos/faith-3.jpg" alt="Faith & Music" class="photo-grid-img" />
           </div>
         </div>
 
@@ -1633,9 +1646,9 @@
             <div class="hobby-chip"><i class="fas fa-guitar"></i> Acoustic Guitar</div>
           </div>
           <div class="photo-placeholder-grid" style="margin-top:1.5rem">
-            <div class="photo-placeholder"><i class="fas fa-image"></i>Outdoors</div>
-            <div class="photo-placeholder"><i class="fas fa-image"></i>Travel</div>
-            <div class="photo-placeholder"><i class="fas fa-image"></i>Gaming</div>
+            <img src="photos/hobby-1.jpg" alt="Outdoors" class="photo-grid-img" />
+            <img src="photos/hobby-2.jpg" alt="Travel" class="photo-grid-img" />
+            <img src="photos/hobby-3.jpg" alt="Gaming" class="photo-grid-img" />
           </div>
         </div>
 
