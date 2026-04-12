@@ -514,8 +514,183 @@
       50% { opacity: 0.4; transform: scale(1.4); }
     }
 
+    /* ===== LEADERSHIP & PROFESSIONAL DEVELOPMENT ===== */
+    #leadership {
+      background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-deep) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    #leadership::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,168,83,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    #leadership::after {
+      content: '';
+      position: absolute;
+      bottom: -150px; left: -150px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(56,189,248,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .leadership-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .leadership-intro {
+      color: rgba(238,242,247,0.75);
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    .leadership-intro strong {
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .leadership-card {
+      position: relative;
+      background: rgba(15,26,46,0.6);
+      border: 1px solid rgba(212,168,83,0.15);
+      border-radius: 18px;
+      padding: 2.5rem;
+      backdrop-filter: blur(10px);
+      transition: all 0.4s var(--ease-out-expo);
+      overflow: hidden;
+    }
+    .leadership-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--teal));
+      border-radius: 18px 18px 0 0;
+    }
+    .leadership-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 18px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(212,168,83,0.2) 0%, transparent 40%, rgba(56,189,248,0.1) 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+    .leadership-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 40px rgba(212,168,83,0.05);
+      border-color: rgba(212,168,83,0.3);
+    }
+    .leadership-card:hover::after { opacity: 1; }
+    .leadership-card-icon {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, rgba(212,168,83,0.15), rgba(240,208,128,0.08));
+      border: 1px solid rgba(212,168,83,0.2);
+      color: var(--gold);
+    }
+    .leadership-card-status {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.7rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      color: #34d399;
+      background: rgba(52,211,153,0.08);
+      border: 1px solid rgba(52,211,153,0.2);
+    }
+    .leadership-card-status::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #34d399;
+    }
+    .leadership-card-title {
+      font-family: var(--font-body);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+    }
+    .leadership-card-org {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--teal);
+      letter-spacing: 0.04em;
+      margin-bottom: 1rem;
+    }
+    .leadership-card-desc {
+      color: rgba(238,242,247,0.7);
+      font-size: 0.95rem;
+      font-weight: 300;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+    .leadership-pillars {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.8rem;
+    }
+    .leadership-pillar {
+      text-align: center;
+      padding: 0.9rem 0.5rem;
+      background: rgba(5,10,18,0.5);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: all 0.3s var(--ease-out-expo);
+    }
+    .leadership-pillar:hover {
+      border-color: rgba(212,168,83,0.3);
+      background: rgba(212,168,83,0.04);
+      transform: translateY(-2px);
+    }
+    .leadership-pillar i {
+      font-size: 1.1rem;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+    .leadership-pillar span {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .leadership-quote {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border-left: 3px solid var(--gold);
+      background: rgba(212,168,83,0.03);
+      border-radius: 0 10px 10px 0;
+    }
+    .leadership-quote p {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-style: italic;
+      color: rgba(238,242,247,0.8);
+      line-height: 1.7;
+    }
+
     /* ===== FEATURED AI WORK ===== */
-    #ai-work { background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-deep) 100%); }
+    #ai-work { background: var(--bg-deep); }
     .ai-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -647,7 +822,7 @@
     }
 
     /* ===== PROJECTS ===== */
-    #projects { background: var(--bg-deep); }
+    #projects { background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-deep) 100%); }
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -716,7 +891,7 @@
     }
 
     /* ===== SKILLS ===== */
-    #skills { background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-deep) 100%); }
+    #skills { background: var(--bg-deep); }
     .skills-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -766,7 +941,7 @@
     @keyframes fillBar { to { transform: scaleX(1); } }
 
     /* ===== EDUCATION ===== */
-    #education { background: var(--bg-deep); }
+    #education { background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-deep) 100%); }
     .edu-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -822,7 +997,7 @@
     }
 
     /* ===== PERSONAL ===== */
-    #personal { background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-deep) 100%); }
+    #personal { background: var(--bg-deep); }
     .personal-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -904,7 +1079,7 @@
     .hobby-chip i { color: var(--teal); font-size: 0.85rem; }
 
     /* ===== COMMUNITY ===== */
-    #community { background: var(--bg-deep); }
+    #community { background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-deep) 100%); }
     .community-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -946,10 +1121,23 @@
       font-weight: 300;
       line-height: 1.6;
     }
+    .community-photo {
+      width: 100%;
+      margin: 1.2rem auto 0;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      object-fit: cover;
+      transition: all 0.3s var(--ease-out-expo);
+    }
+    .community-photo:hover {
+      border-color: rgba(56,189,248,0.3);
+      transform: scale(1.02);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
 
     /* ===== CONTACT ===== */
     #contact {
-      background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-deep) 100%);
+      background: var(--bg-deep);
       text-align: center;
     }
     .contact-inner { max-width: 700px; margin: 0 auto; }
@@ -1052,6 +1240,8 @@
       .hero-stats { justify-content: center; }
       section { padding: 4rem 2rem; }
       #about .section-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .leadership-layout { grid-template-columns: 1fr; gap: 2rem; }
+      .leadership-pillars { grid-template-columns: 1fr 1fr 1fr; }
       .ai-grid { grid-template-columns: 1fr; }
       .ai-card.featured .ai-card-inner { grid-template-columns: 1fr; }
       .skills-layout { grid-template-columns: 1fr; }
@@ -1097,6 +1287,7 @@
   <div class="mobile-menu" id="mobileMenu">
     <a href="#about" onclick="closeMobile()">About</a>
     <a href="#experience" onclick="closeMobile()">Experience</a>
+    <a href="#leadership" onclick="closeMobile()">Leadership</a>
     <a href="#ai-work" onclick="closeMobile()">AI Work</a>
     <a href="#projects" onclick="closeMobile()">Projects</a>
     <a href="#skills" onclick="closeMobile()">Skills</a>
@@ -1110,6 +1301,7 @@
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#experience">Experience</a></li>
+      <li><a href="#leadership">Leadership</a></li>
       <li><a href="#ai-work">AI Work</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#skills">Skills</a></li>
@@ -1345,6 +1537,54 @@
           </div>
           <div class="timeline-desc">
             <p>Developed machine learning-based anomaly detection algorithms and conducted knowledge graph analysis in the Advanced Data Mining Lab.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- LEADERSHIP & PROFESSIONAL DEVELOPMENT -->
+  <section id="leadership">
+    <div class="section-inner">
+      <p class="section-label reveal">Growth & Direction</p>
+      <h2 class="section-title reveal">Leadership & <span>Professional Development</span></h2>
+      <div class="section-divider reveal"></div>
+
+      <div class="leadership-layout">
+
+        <div class="reveal">
+          <p class="leadership-intro">
+            As my career evolves from hands-on engineering to <strong>technical leadership</strong>, I'm intentionally investing in the skills that define great leaders — communication, strategic thinking, and the ability to inspire teams toward a shared vision. I believe the best tech leaders never stop learning, both in their craft and in how they lead people.
+          </p>
+          <div class="leadership-quote">
+            <p>"Engineering excellence gets you to the table. Leadership is what lets you shape what's built there."</p>
+          </div>
+        </div>
+
+        <div class="reveal">
+          <div class="leadership-card">
+            <div class="leadership-card-icon"><i class="fas fa-compass"></i></div>
+            <div class="leadership-card-status">Completed &middot; 2026</div>
+            <div class="leadership-card-title">Aberdeen Leadership Program</div>
+            <div class="leadership-card-org">ABERDEEN AREA CHAMBER OF COMMERCE &middot; Aberdeen, SD</div>
+            <div class="leadership-card-desc">
+              Completed a selective 3-month leadership development program focused on community engagement, effective communication, and organizational leadership — strengthening the bridge between technical expertise and the people-first leadership needed to drive real impact.
+            </div>
+            <div class="leadership-pillars">
+              <div class="leadership-pillar">
+                <i class="fas fa-users"></i>
+                <span>Community Engagement</span>
+              </div>
+              <div class="leadership-pillar">
+                <i class="fas fa-comments"></i>
+                <span>Communication</span>
+              </div>
+              <div class="leadership-pillar">
+                <i class="fas fa-sitemap"></i>
+                <span>Org. Leadership</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1680,6 +1920,8 @@
           <div class="community-icon">🌾</div>
           <div class="community-title">FFA Volunteer Judge</div>
           <div class="community-desc">Volunteer judge for FFA student competitions since 2025, mentoring the next generation of agricultural science and technology students in South Dakota.</div>
+          <img src="photos/ffa-state-judge-2026.jpg" alt="Bobby judging at State FFA 2026 with presenting students" class="community-photo"
+            onerror="this.style.display='none';" />
         </div>
 
       </div>
@@ -1710,7 +1952,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <span class="footer-copy">&copy; 2026 Bobby Azad &middot; Aberdeen, South Dakota &middot; Last updated March 17, 2026</span>
+    <span class="footer-copy">&copy; 2026 Bobby Azad &middot; Aberdeen, South Dakota &middot; Last updated April 12, 2026</span>
     <div class="footer-socials">
       <a href="mailto:gbazad93@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
       <a href="https://github.com/gbazad93" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
