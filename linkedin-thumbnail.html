@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LinkedIn Thumbnail</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #1a1a2e;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* LinkedIn recommends 1200x627 for link thumbnails */
+    .card {
+      width: 1200px;
+      height: 627px;
+      background: linear-gradient(135deg, #050a12 0%, #0a1121 40%, #0f1a2e 100%);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      padding: 0 90px;
+    }
+
+    /* subtle grid pattern */
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* glowing orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.3;
+    }
+    .orb-1 {
+      width: 400px; height: 400px;
+      background: #0c7bb3;
+      top: -120px; right: -80px;
+    }
+    .orb-2 {
+      width: 300px; height: 300px;
+      background: #d4a853;
+      bottom: -100px; left: -60px;
+      opacity: 0.15;
+    }
+    .orb-3 {
+      width: 200px; height: 200px;
+      background: #a78bfa;
+      bottom: 60px; right: 200px;
+      opacity: 0.1;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #38bdf8;
+      margin-bottom: 16px;
+    }
+
+    .name {
+      font-family: 'Playfair Display', serif;
+      font-size: 72px;
+      font-weight: 900;
+      color: #eef2f7;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .name span {
+      background: linear-gradient(135deg, #d4a853, #f0d080);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .tagline {
+      font-size: 22px;
+      color: #7b89a8;
+      line-height: 1.5;
+      max-width: 650px;
+      margin-bottom: 32px;
+    }
+
+    .badges {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      color: #eef2f7;
+    }
+
+    /* decorative accent line */
+    .accent-line {
+      position: absolute;
+      right: 90px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 200px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #38bdf8, #d4a853);
+      z-index: 1;
+    }
+
+    .url {
+      position: absolute;
+      bottom: 32px;
+      right: 90px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #7b89a8;
+      letter-spacing: 0.5px;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="accent-line"></div>
+
+    <div class="content">
+      <div class="eyebrow">AI Engineer &middot; Tech Lead</div>
+      <h1 class="name">Bobby <span>Azad</span></h1>
+      <p class="tagline">Building intelligence at the intersection of data, AI, and agriculture</p>
+      <div class="badges">
+        <span class="badge">AI/ML</span>
+        <span class="badge">Python</span>
+        <span class="badge">Computer Vision</span>
+        <span class="badge">LLMs</span>
+        <span class="badge">Agriculture</span>
+      </div>
+    </div>
+
+    <div class="url">gbazad93.github.io</div>
+  </div>
+</body>
+</html>
