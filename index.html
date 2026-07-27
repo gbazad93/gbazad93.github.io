@@ -288,6 +288,11 @@
     .horizon .horizon-mobile { display: none; }
     .sun { animation: sunrise 1.9s var(--ease) 0.35s both; }
     @keyframes sunrise { from { transform: translateY(36px); } to { transform: translateY(0); } }
+    .drone-float { animation: hoverDrift 4.5s ease-in-out infinite alternate; }
+    @keyframes hoverDrift { from { transform: translateY(0); } to { transform: translateY(-6px); } }
+    .signal path { animation: ping 2.4s ease-in-out infinite; }
+    .signal path:nth-child(2) { animation-delay: 0.4s; }
+    @keyframes ping { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
     /* Hero load sequence */
     .rise { opacity: 0; animation: riseIn 0.8s var(--ease) forwards; }
@@ -531,6 +536,7 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       .rise, .sun { animation: none; opacity: 1; }
+      .drone-float, .signal path { animation: none; }
       .reveal { opacity: 1; transform: none; transition: none; }
       .work-card, .proj, .edu, .community, .btn, .photo-strip img { transition: none; }
     }
@@ -625,11 +631,54 @@
           <rect x="296" y="76" width="15" height="42" rx="2"/><rect x="313" y="76" width="15" height="42" rx="2"/>
           <rect x="378" y="82" width="14" height="36" rx="2"/><rect x="394" y="82" width="14" height="36" rx="2"/>
         </g>
+        <!-- drone surveying the field -->
+        <g class="drone-float">
+          <polygon points="620,72 596,148 644,148" fill="#33613C" opacity="0.09"/>
+          <ellipse cx="620" cy="148" rx="26" ry="3.5" fill="#33613C" opacity="0.12"/>
+          <g stroke="#22301F" stroke-width="2" stroke-linecap="round" fill="none">
+            <line x1="606" y1="62" x2="634" y2="62"/>
+            <line x1="606" y1="57.5" x2="606" y2="62"/><line x1="634" y1="57.5" x2="634" y2="62"/>
+            <line x1="597" y1="56.5" x2="615" y2="56.5"/><line x1="625" y1="56.5" x2="643" y2="56.5"/>
+          </g>
+          <rect x="612" y="58.5" width="16" height="7" rx="3" fill="#22301F"/>
+          <rect x="617" y="66" width="6" height="4.5" rx="1.5" fill="#22301F"/>
+        </g>
+        <!-- AI agent monitoring the train -->
+        <g>
+          <line x1="838" y1="94" x2="838" y2="100" stroke="#22301F" stroke-width="1.5"/>
+          <circle cx="838" cy="92" r="2" fill="#D9A03A"/>
+          <rect x="831" y="100" width="14" height="9.5" rx="2.5" fill="#22301F"/>
+          <circle cx="841" cy="105" r="1.5" fill="#F9F4E7"/>
+          <rect x="833" y="111.5" width="10" height="6.5" rx="2" fill="#22301F"/>
+          <g class="signal" stroke="#D9A03A" stroke-width="1.6" fill="none" stroke-linecap="round">
+            <path d="M 846 87 q 7 6 0 12"/>
+            <path d="M 852 83 q 11 9.5 0 19"/>
+          </g>
+        </g>
+        <!-- grain train: locomotive + hopper cars -->
         <g fill="#22301F">
-          <rect x="880" y="104" width="26" height="14" rx="2"/><rect x="884" y="98" width="12" height="6" rx="1"/>
-          <rect x="910" y="107" width="30" height="11" rx="1.5"/><rect x="944" y="107" width="30" height="11" rx="1.5"/>
-          <rect x="978" y="107" width="30" height="11" rx="1.5"/><rect x="1012" y="107" width="30" height="11" rx="1.5"/>
-          <rect x="1046" y="107" width="30" height="11" rx="1.5"/>
+          <path d="M 873 113 V 106 L 880 99 H 906 V 92 H 918 V 113 Z"/>
+          <rect x="884" y="94" width="4" height="5"/>
+          <rect x="908" y="95" width="6" height="5" rx="1" fill="#F9F4E7"/>
+          <circle cx="877" cy="104" r="1.5" fill="#D9A03A"/>
+          <circle cx="880" cy="115.5" r="2.6"/><circle cx="890" cy="115.5" r="2.6"/>
+          <circle cx="906" cy="115.5" r="2.6"/><circle cx="914" cy="115.5" r="2.6"/>
+          <rect x="918.5" y="104.5" width="5" height="3"/>
+          <path d="M 924 100 h30 v11 l-5 4 h-20 l-5 -4 z"/>
+          <rect x="930" y="97.5" width="6" height="2.5"/><rect x="942" y="97.5" width="6" height="2.5"/>
+          <circle cx="931" cy="115.5" r="2.6"/><circle cx="947" cy="115.5" r="2.6"/>
+          <rect x="954.5" y="104.5" width="5" height="3"/>
+          <path d="M 960 100 h30 v11 l-5 4 h-20 l-5 -4 z"/>
+          <rect x="966" y="97.5" width="6" height="2.5"/><rect x="978" y="97.5" width="6" height="2.5"/>
+          <circle cx="967" cy="115.5" r="2.6"/><circle cx="983" cy="115.5" r="2.6"/>
+          <rect x="990.5" y="104.5" width="5" height="3"/>
+          <path d="M 996 100 h30 v11 l-5 4 h-20 l-5 -4 z"/>
+          <rect x="1002" y="97.5" width="6" height="2.5"/><rect x="1014" y="97.5" width="6" height="2.5"/>
+          <circle cx="1003" cy="115.5" r="2.6"/><circle cx="1019" cy="115.5" r="2.6"/>
+          <rect x="1026.5" y="104.5" width="5" height="3"/>
+          <path d="M 1032 100 h30 v11 l-5 4 h-20 l-5 -4 z"/>
+          <rect x="1038" y="97.5" width="6" height="2.5"/><rect x="1050" y="97.5" width="6" height="2.5"/>
+          <circle cx="1039" cy="115.5" r="2.6"/><circle cx="1055" cy="115.5" r="2.6"/>
         </g>
         <g stroke="#22301F" stroke-width="1.6" fill="none" opacity="0.7">
           <path d="M 520 52 q 6 -7 12 0 q 6 -7 12 0"/>
@@ -654,14 +703,54 @@
           <rect x="136" y="76" width="15" height="42" rx="2"/><rect x="153" y="76" width="15" height="42" rx="2"/>
           <rect x="218" y="82" width="14" height="36" rx="2"/><rect x="234" y="82" width="14" height="36" rx="2"/>
         </g>
+        <!-- drone surveying the field -->
+        <g class="drone-float">
+          <polygon points="348,72 326,148 370,148" fill="#33613C" opacity="0.09"/>
+          <ellipse cx="348" cy="148" rx="24" ry="3.5" fill="#33613C" opacity="0.12"/>
+          <g stroke="#22301F" stroke-width="2" stroke-linecap="round" fill="none">
+            <line x1="334" y1="62" x2="362" y2="62"/>
+            <line x1="334" y1="57.5" x2="334" y2="62"/><line x1="362" y1="57.5" x2="362" y2="62"/>
+            <line x1="325" y1="56.5" x2="343" y2="56.5"/><line x1="353" y1="56.5" x2="371" y2="56.5"/>
+          </g>
+          <rect x="340" y="58.5" width="16" height="7" rx="3" fill="#22301F"/>
+          <rect x="345" y="66" width="6" height="4.5" rx="1.5" fill="#22301F"/>
+        </g>
+        <!-- AI agent monitoring the train -->
+        <g>
+          <line x1="390" y1="94" x2="390" y2="100" stroke="#22301F" stroke-width="1.5"/>
+          <circle cx="390" cy="92" r="2" fill="#D9A03A"/>
+          <rect x="383" y="100" width="14" height="9.5" rx="2.5" fill="#22301F"/>
+          <circle cx="393" cy="105" r="1.5" fill="#F9F4E7"/>
+          <rect x="385" y="111.5" width="10" height="6.5" rx="2" fill="#22301F"/>
+          <g class="signal" stroke="#D9A03A" stroke-width="1.6" fill="none" stroke-linecap="round">
+            <path d="M 398 87 q 7 6 0 12"/>
+            <path d="M 404 83 q 11 9.5 0 19"/>
+          </g>
+        </g>
+        <!-- grain train: locomotive + hopper cars -->
         <g fill="#22301F">
-          <rect x="430" y="104" width="26" height="14" rx="2"/><rect x="434" y="98" width="12" height="6" rx="1"/>
-          <rect x="460" y="107" width="30" height="11" rx="1.5"/><rect x="494" y="107" width="30" height="11" rx="1.5"/>
-          <rect x="528" y="107" width="30" height="11" rx="1.5"/><rect x="562" y="107" width="30" height="11" rx="1.5"/>
+          <path d="M 405 113 V 106 L 412 99 H 438 V 92 H 450 V 113 Z"/>
+          <rect x="416" y="94" width="4" height="5"/>
+          <rect x="440" y="95" width="6" height="5" rx="1" fill="#F9F4E7"/>
+          <circle cx="409" cy="104" r="1.5" fill="#D9A03A"/>
+          <circle cx="412" cy="115.5" r="2.6"/><circle cx="422" cy="115.5" r="2.6"/>
+          <circle cx="438" cy="115.5" r="2.6"/><circle cx="446" cy="115.5" r="2.6"/>
+          <rect x="450.5" y="104.5" width="5" height="3"/>
+          <path d="M 456 100 h30 v11 l-5 4 h-20 l-5 -4 z"/>
+          <rect x="462" y="97.5" width="6" height="2.5"/><rect x="474" y="97.5" width="6" height="2.5"/>
+          <circle cx="463" cy="115.5" r="2.6"/><circle cx="479" cy="115.5" r="2.6"/>
+          <rect x="486.5" y="104.5" width="5" height="3"/>
+          <path d="M 492 100 h30 v11 l-5 4 h-20 l-5 -4 z"/>
+          <rect x="498" y="97.5" width="6" height="2.5"/><rect x="510" y="97.5" width="6" height="2.5"/>
+          <circle cx="499" cy="115.5" r="2.6"/><circle cx="515" cy="115.5" r="2.6"/>
+          <rect x="522.5" y="104.5" width="5" height="3"/>
+          <path d="M 528 100 h30 v11 l-5 4 h-20 l-5 -4 z"/>
+          <rect x="534" y="97.5" width="6" height="2.5"/><rect x="546" y="97.5" width="6" height="2.5"/>
+          <circle cx="535" cy="115.5" r="2.6"/><circle cx="551" cy="115.5" r="2.6"/>
         </g>
         <g stroke="#22301F" stroke-width="1.6" fill="none" opacity="0.7">
           <path d="M 268 52 q 6 -7 12 0 q 6 -7 12 0"/>
-          <path d="M 306 68 q 5 -6 10 0 q 5 -6 10 0"/>
+          <path d="M 296 68 q 5 -6 10 0 q 5 -6 10 0"/>
         </g>
       </svg>
     </div>
