@@ -285,7 +285,7 @@
     /* Horizon artwork */
     .horizon { margin-top: 4rem; overflow: hidden; line-height: 0; }
     .horizon svg { width: 100%; height: auto; display: block; }
-    .horizon-mobile { display: none; }
+    .horizon .horizon-mobile { display: none; }
     .sun { animation: sunrise 1.9s var(--ease) 0.35s both; }
     @keyframes sunrise { from { transform: translateY(36px); } to { transform: translateY(0); } }
 
@@ -522,8 +522,8 @@
       .hero { padding-top: 7.5rem; }
       section { padding: 4.2rem 0; }
       .xp-row { grid-template-columns: 1fr; gap: 0.5rem; padding: 1.6rem 0; }
-      .horizon-desktop { display: none; }
-      .horizon-mobile { display: block; }
+      .horizon .horizon-desktop { display: none; }
+      .horizon .horizon-mobile { display: block; }
       .stat { padding-right: 1.1rem; margin-right: 1.1rem; }
       .stat + .stat { padding-left: 1.1rem; }
     }
